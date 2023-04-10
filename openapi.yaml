@@ -1,0 +1,117 @@
+openapi: 3.1.0
+info:
+  title: Fizz buzz REST API
+  description: |-
+    Fizz_buzz is a Rest server implementing an API interface to the fizzbuzz package - an expansion of the classical
+    fizzbuzz to wider limits and outputs.
+
+  contact:
+    email: t.gautierginer@gmail.com
+  version: 1.0.0
+paths:
+  /health:
+    get:
+      summary: Get server health
+      responses:
+        '200':
+          description: Server is healthy
+  /fizzbuzz:
+    get:
+      summary: Get fizzbuzz result
+      description: Compute fizzbuzz for two integers from 1 to a given limit, with "fizz" and "buzz" words customisable
+      parameters:
+        - name: int1
+          in: query
+          description: First fizzbuzz integer value
+          required: true
+          schema:
+            type: integer
+            example: 3
+        
+        - name: int2
+          in: query
+          description: Second fizzbuzz integer value
+          required: true
+          schema:
+            type: integer
+            example: 5
+        
+        - name: limit
+          in: query
+          description: Fizzbuzz computation upper limit
+          required: true
+          schema:
+            type: integer
+            example: 100
+            
+        - name: str1
+          in: query
+          description: First fizzbuzz string value
+          required: false
+          schema:
+            type: string
+            example: "fizz"
+            
+        
+        - name: str2
+          in: query
+          description: Second fizzbuzz string value
+          required: false
+          schema:
+            type: string
+            example: "buzz"
+      responses:
+        '200':
+          description: successful fizzbuzz
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Invalid parameter
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponse"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerErrorResponse"
+  /stats:
+    get:
+      summary: Get server stats
+      description: Get server most used parameters for route /fizzbuzz
+      responses:
+        '200':
+          description: /fizzbuzz route server stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatsResponse"
+components:
+  schemas:
+    BadRequestErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Could not read request"
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Could not read request limit"
+    StatsResponse:
+      type: object
+      properties:
+        Params:
+          type: string
+          example: "int1=3&int2=5&limit=100&str1=fizz&str2=buzz"
+        Hits:
+          type: string
+          example: 2
