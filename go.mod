@@ -1,3 +1,3 @@
-module github.com/tgautier/fizz_buzz
+module github.com/TheoGautier/fizz_buzz
 
 go 1.20
