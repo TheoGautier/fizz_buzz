@@ -1,6 +1,6 @@
 FROM golang:1.20.3-alpine3.17 as builder
 
-WORKDIR /usr/src/app
+WORKDIR /usr/local/go/src/fizz_buzz
 
 COPY go.mod ./
 
